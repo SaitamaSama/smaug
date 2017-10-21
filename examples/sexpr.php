@@ -1,35 +1,13 @@
-<?hh
-
+<?php
 // wooh! s-expressions!
-
 namespace igorw\smaug;
 
-require __DIR__.'/../src/parser.php';
-
+require __DIR__ . '/../src/parser.php';
 $p = new \ArrayObject();
-
-$p['expr'] = delay_parser(() ==>
-    alt($p['symbol'], $p['list'])
-);
-
-$p['symbol'] = regexp('\w+');
-
-$p['list'] = delay_parser(() ==>
-    alt(
-        red(string('()'), () ==> []),
-        red(seq(string('('), $p['members'], string(')')),
-            ($l, $m, $r) ==> $m),
-    )
-);
-
-$p['members'] = delay_parser(() ==>
-    alt(
-        red($p['expr'], $e ==> [$e]),
-        red(seq($p['expr'], string(' '), $p['members']),
-            ($e, $_, $m) ==> [$e, $m])
-    )
-);
-
+$p['expr'] = delay_parser(function () use ($p) { return alt($p['symbol'], $p['list']); });
+$p['symbol'] = regexp('\\w+');
+$p['list'] = delay_parser(function () use ($p) { return alt(red(string('()'), function () { return []; }), red(seq(string('('), $p['members'], string(')')), function ($l, $m, $r) { return $m; })); });
+$p['members'] = delay_parser(function () use ($p) { return alt(red($p['expr'], function ($e) { return [$e]; }), red(seq($p['expr'], string(' '), $p['members']), function ($e, $_, $m) { return [$e, $m]; })); });
 var_dump(iterator_to_array(run_parser($p['expr'], 'foo')));
 var_dump(iterator_to_array(run_parser($p['expr'], '()')));
 var_dump(iterator_to_array(run_parser($p['expr'], '(foo)')));

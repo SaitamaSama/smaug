@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/phplang/phack"
+        }
+    ],
+    "require": {
+        "phplang/phack": "dev-master"
+    }
+}
