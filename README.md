@@ -6,7 +6,7 @@ Here be dragons.
 
 Ever tried to parse complex data formats? Sure, you can use regular
 expressions, but they only get you so far. And parsing more complex structures
-becomes tedious and awkward. And also much harder to get right.
+becomes tedious and awkward. And also much harder to get, right?
 
 Say you wanted to write a JSON parser. Oh, there already is one called
 `json_decode`? Ok. Say you wanted to write an
